@@ -1,9 +1,25 @@
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #222;
+  color: white;
+  text-align: center;
+}
 
-/* style.css */
+header h1 {
+  margin: 20px 0 0 0;
+  font-size: 2rem;
+}
+
+header p {
+  font-size: 1rem;
+  margin: 5px 0 20px 0;
+}
+
 #wheel-container {
-  width: 90vw;         /* 90% of viewport width */
-  max-width: 400px;    /* max size for desktop */
-  margin: 0 auto;      /* center */
+  width: 90vw;
+  max-width: 400px;
+  margin: 0 auto;
   position: relative;
 }
 
@@ -11,4 +27,22 @@
   width: 100%;
   height: auto;
   display: block;
+}
+
+#controls {
+  margin-top: 20px;
+}
+
+#controls select, #controls button, #controls a {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.button {
+  text-decoration: none;
+  color: white;
+  background: #ff6600;
+  border-radius: 5px;
 }
