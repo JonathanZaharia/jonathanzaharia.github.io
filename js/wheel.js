@@ -1,20 +1,49 @@
 const canvas = document.getElementById('wheel-canvas');
 const ctx = canvas.getContext('2d');
 
+// Boot segments - titles, links, and image file paths
 const segments = [
-  {title:'Baobab – Bronco Brown', link:'https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12', img:'assets/boots/baobab-bronco.jpg'},
-  {title:'African Ranger – Leather Midsole – Bronco Brown', link:'https://jimgreenfootwear.com/store/african-ranger-bronco-leather-midsole/?attribute_pa_size=12', img:'assets/boots/ar-bronco.jpg'},
-  // ...add all your boot images
+  {title:'Baobab – Bronco Brown', 
+   link:'https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12', 
+   img:'assets/boots/baobab-bronco.jpg'},
+   
+  {title:'African Ranger – Leather Midsole – Bronco Brown', 
+   link:'https://jimgreenfootwear.com/store/african-ranger-bronco-leather-midsole/?attribute_pa_size=12', 
+   img:'assets/boots/ar-bronco.jpg'},
+
+  {title:'African Ranger – Leather Midsole – Houston Brown', 
+   link:'https://jimgreenfootwear.com/store/african-ranger-houston-brown-leather-midsole/?attribute_pa_size=12', 
+   img:'assets/boots/ar-houston.jpg'},
+
+  {title:'African Ranger – Bronco Brown', 
+   link:'https://jimgreenfootwear.com/store/african-ranger-tyre-wedge-bronco/?attribute_pa_size=12', 
+   img:'assets/boots/ar-tyre.jpg'},
+
+  {title:'719 – Frog Grip Sole – Bronco Brown', 
+   link:'https://jimgreenfootwear.com/store/719-bronco/', 
+   img:'assets/boots/719-frog.jpg'},
+
+  {title:'719 – Tyre Wedge – Bronco Brown', 
+   link:'https://jimgreenfootwear.com/store/719-bronco-brown-tyre-wedge/', 
+   img:'assets/boots/719-tyre.jpg'},
+
+  {title:'African Ranger – Buffalo Skin', 
+   link:'https://jimgreenfootwear.com/store/african-ranger-buffalo-skin/', 
+   img:'assets/boots/ar-buffalo.jpg'},
+
+  {title:'African Ranger – Leather Midsole – Buffalo', 
+   link:'https://jimgreenfootwear.com/store/african-ranger-buffalo-leather-midsole/', 
+   img:'assets/boots/ar-buffalo-leather.jpg'}
 ];
 
 const colors=['#ffcc00','#ff6600','#00ccff','#cc00ff','#66ff66','#ff0066','#00ffcc','#ccff00'];
 let angle=0, spinning=false;
 
-// Create JS audio context for generated sounds
+// JS audio context for sounds
 const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
 let spinOscillator = null;
 
-// Draw wheel segments
+// Draw wheel
 function drawWheel() {
   const width = canvas.clientWidth;
   canvas.width = width; canvas.height = width;
@@ -41,19 +70,27 @@ function drawWheel() {
       ctx.restore();
     }
 
-    // Draw short title
+    // Draw title (shortened if too long)
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(i*segAngle + segAngle/2 + angle);
     ctx.textAlign='right'; ctx.fillStyle='#000';
     ctx.font='bold 12px Arial';
-    ctx.fillText(seg.title.length>15?seg.title.slice(0,15)+'...':seg.title, radius-10, 5);
+    ctx.fillText(seg.title.length>15?seg.title.slice(0,15)+'...':seg.title,radius-10,5);
     ctx.restore();
   });
 }
 drawWheel();
 
-// Spin wheel with JS-generated sound
+// Populate boot list on side panel
+const bootList=document.getElementById('boot-list');
+segments.forEach(seg=>{
+  const li=document.createElement('li');
+  li.innerHTML=`<a href="${seg.link}" target="_blank">${seg.title}</a>`;
+  bootList.appendChild(li);
+});
+
+// Spin wheel logic with JS-generated sound
 document.getElementById('spin-btn').addEventListener('click',()=>{
   if(spinning) return;
   spinning=true;
@@ -69,6 +106,7 @@ document.getElementById('spin-btn').addEventListener('click',()=>{
   const spinInterval = setInterval(()=>{
     angle += 0.1;
     drawWheel();
+    // Modulate frequency for spinning effect
     spinOscillator.frequency.setValueAtTime(400 + Math.random()*200, audioCtx.currentTime);
     spinAngle -= 0.1;
     if(spinAngle<=0){
@@ -94,7 +132,7 @@ document.getElementById('popup-close').addEventListener('click',()=>{
   document.getElementById('winner-popup').style.display='none';
 });
 
-// JS-generated winner voice
+// JS-generated winner voice effect
 function playWinnerVoice(){
   const voiceOsc = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
