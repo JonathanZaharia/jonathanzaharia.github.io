@@ -3,29 +3,26 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>THE BOOT SPINNING GAMESHOW</title>
+<title>YOU STILL OWE ME A GIFT — Gameshow</title>
 <style>
   :root{
-    --bg:#071428;
-    --card:#0e1724;
-    --accent:#ffd166;
-    --muted:#b6c0cc;
-    --glow: 0 8px 24px rgba(255,209,102,0.14);
+    --bg:#031021; --card:#0e1724; --accent:#ffd166; --muted:#b6c0cc;
   }
-  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#031021 0%, #071428 100%);color:#eff8ff;display:flex;align-items:center;justify-content:center;padding:24px;}
+  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;}
+  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#02101a,#071428);color:#eef6ff;display:flex;align-items:center;justify-content:center;padding:20px;}
   .wrap{width:100%;max-width:1100px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 14px 40px rgba(2,6,23,0.75);}
-  header{display:flex;gap:12px;align-items:center;margin-bottom:14px}
-  header h1{margin:0;font-size:20px;letter-spacing:0.6px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  header h1{margin:0;font-size:20px}
   .stage{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
   #stageLeft{flex:0 1 520px;display:flex;flex-direction:column;align-items:center}
-  canvas{background:transparent;border-radius:12px;display:block;box-shadow: var(--glow); }
-  #spinBtn{margin-top:14px;padding:12px 20px;border-radius:10px;border:0;background:var(--accent);color:#031018;font-weight:800;cursor:pointer;font-size:15px;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
+  canvas{border-radius:12px;display:block;box-shadow:0 10px 28px rgba(0,0,0,0.6)}
+  #spinBtn{margin-top:12px;padding:12px 20px;border-radius:10px;border:0;background:var(--accent);color:#031018;font-weight:800;cursor:pointer}
   #spinBtn:active{transform:translateY(1px)}
   #lights{width:100%;height:8px;margin-top:12px;display:flex;gap:6px;justify-content:center;align-items:center}
-  .bulb{width:12px;height:12px;border-radius:50%;background:#222;box-shadow:inset 0 -2px 4px rgba(0,0,0,.5)}
+  .bulb{width:12px;height:12px;border-radius:50%;background:#222}
   .right{flex:1;min-width:300px}
-  .info{color:var(--muted);font-size:13px;margin-bottom:8px}
+  .hostLine{font-weight:700;color:#ffe; margin-bottom:8px}
+  .info{color:var(--muted);font-size:13px;margin-bottom:10px}
   .options{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
   .option{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:8px;display:flex;gap:8px;align-items:center;cursor:pointer;border:1px solid rgba(255,255,255,0.02);transition:transform .12s}
   .option:hover{transform:translateY(-6px)}
@@ -33,18 +30,17 @@
   .optMeta{display:flex;flex-direction:column}
   .optTitle{font-weight:700;font-size:13px}
   .optPrice{color:var(--muted);font-size:12px}
-  .badge{font-size:11px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.04);color:var(--muted)}
-  .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.9);min-width:320px;background:#071428;border-radius:12px;padding:18px;box-shadow:0 22px 60px rgba(2,6,23,0.8);z-index:50;display:none;align-items:center;gap:12px;}
+  .badge{font-size:11px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);margin-left:6px}
+  .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.95);min-width:320px;background:#071428;border-radius:12px;padding:18px;box-shadow:0 26px 80px rgba(2,6,23,0.9);z-index:60;display:none;align-items:center;gap:12px;}
   .modal.show{display:flex;flex-direction:column;animation:pop .28s cubic-bezier(.2,.9,.2,1) forwards}
   @keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.92)} to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
   .modal img{width:160px;height:120px;object-fit:cover;border-radius:8px}
   .modal h2{margin:0;font-size:18px}
-  .modal .row{display:flex;gap:10px;align-items:center}
+  .row{display:flex;gap:10px;align-items:center}
   .btn{padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
   .btn.primary{background:var(--accent);color:#071018;font-weight:800}
   .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
   footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
-  .hostLine{font-weight:700;color:#ffd; margin-bottom:8px}
   @media(max-width:900px){.stage{flex-direction:column;align-items:center} #stageLeft{width:100%} .right{width:100%}}
 </style>
 </head>
@@ -56,26 +52,25 @@
     </header>
 
     <div class="stage">
-      <div id="stageLeft">
+      <div id="stageLeft" aria-hidden="false">
         <div id="lights" aria-hidden="true"></div>
         <canvas id="wheel" width="480" height="480" aria-label="Spin wheel"></canvas>
         <button id="spinBtn" aria-controls="wheel">SPIN THE WHEEL</button>
       </div>
 
       <div class="right">
-        <div class="hostLine" id="hostLine">Hey — since you took 4 YEARS, I made a gameshow.</div>
-        <div class="info">When the wheel stops the host will announce the winner and the Buy button will open the product page. Expensive boots are shown bigger but chances are fair.</div>
+        <div class="hostLine" id="hostLine">Hey — since you took 4 YEARS, welcome to the show.</div>
+        <div class="info">When the wheel stops, the host will reveal the winner. Click BUY to open the product page (this avoids popup blockers).</div>
 
-        <div id="options" class="options"></div>
-        <div style="height:12px"></div>
-        <div class="info">Tip: to add real images, upload images to <code>assets/</code> in your repo and keep the filenames used below.</div>
+        <div id="options" class="options" aria-live="polite"></div>
+        <div style="height:10px"></div>
+        <div class="info">To change host lines, edit the <code>hostLines</code> array in the script below.</div>
       </div>
     </div>
 
-    <footer>Build: GitHub Pages friendly. Replace images in <code>assets/</code> and push to repo.</footer>
+    <footer>Deploy on GitHub Pages for HTTPS and full audio support.</footer>
   </div>
 
-  <!-- winner modal -->
   <div id="winnerModal" class="modal" role="dialog" aria-modal="true">
     <div style="display:flex;gap:12px;align-items:center">
       <img id="winImg" src="" alt="Winner image" />
@@ -91,41 +86,34 @@
   </div>
 
 <script>
-/* --- OPTIONS: edit these with images you upload to repo (assets/<file>) OR direct image URLs --- */
+/* ----------------- CONFIG: your options (already matched to assets filenames) ----------------- */
 const options = [
-  // label, price, img (assets or full URL), url, priceValue (used for size/label)
-  { label: "Baobab – Bronco Brown", price: "$199.99", img: "assets/baobab.jpg", url: "https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12", value: 199.99 },
-  { label: "African Ranger – Leather Midsole – Bronco Brown", price: "$169.99", img: "assets/ar-bronco-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-bronco-leather-midsole/?attribute_pa_size=12", value: 169.99 },
-  { label: "African Ranger – Leather Midsole – Houston Brown", price: "$155.99", img: "assets/ar-houston-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-houston-brown-leather-midsole/?attribute_pa_size=12", value: 155.99 },
-  { label: "African Ranger – Bronco Brown (Tyre Wedge)", price: "$155.99", img: "assets/ar-tyre.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-tyre-wedge-bronco/?attribute_pa_size=12", value: 155.99 },
-  { label: "719 – Frog Grip Sole – Bronco Brown", price: "$129.99", img: "assets/719-frog.jpg", url: "https://jimgreenfootwear.com/store/719-bronco/", value: 129.99 },
-  { label: "719 – Tyre Wedge – Bronco Brown", price: "$129.99", img: "assets/719-tyre.jpg", url: "https://jimgreenfootwear.com/store/719-bronco-brown-tyre-wedge/", value: 129.99 },
-  { label: "African Ranger – Buffalo Skin", price: "$240.00", img: "assets/ar-buffalo.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-skin/", value: 240.00 },
-  { label: "African Ranger – Leather Midsole – Buffalo", price: "$240.00", img: "assets/ar-buffalo-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-leather-midsole/", value: 240.00 }
+  { label: "Baobab – Bronco Brown", price: "$199.99", img: "assets/baobab.jpg", url: "https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12", value:199.99 },
+  { label: "African Ranger – Leather Midsole – Bronco Brown", price: "$169.99", img: "assets/ar-bronco-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-bronco-leather-midsole/?attribute_pa_size=12", value:169.99 },
+  { label: "African Ranger – Leather Midsole – Houston Brown", price: "$155.99", img: "assets/ar-houston-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-houston-brown-leather-midsole/?attribute_pa_size=12", value:155.99 },
+  { label: "African Ranger – Bronco Brown (Tyre Wedge)", price: "$155.99", img: "assets/ar-tyre.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-tyre-wedge-bronco/?attribute_pa_size=12", value:155.99 },
+  { label: "719 – Frog Grip Sole – Bronco Brown", price: "$129.99", img: "assets/719-frog.jpg", url: "https://jimgreenfootwear.com/store/719-bronco/", value:129.99 },
+  { label: "719 – Tyre Wedge – Bronco Brown", price: "$129.99", img: "assets/719-tyre.jpg", url: "https://jimgreenfootwear.com/store/719-bronco-brown-tyre-wedge/", value:129.99 },
+  { label: "African Ranger – Buffalo Skin", price: "$240.00", img: "assets/ar-buffalo.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-skin/", value:240.00 },
+  { label: "African Ranger – Leather Midsole – Buffalo", price: "$240.00", img: "assets/ar-buffalo-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-leather-midsole/", value:240.00 }
 ];
-/* ------------- DO NOT EDIT BELOW FOR BASIC USE ------------- */
+/* ----------------- END CONFIG ----------------- */
 
 const canvas = document.getElementById('wheel');
 const ctx = canvas.getContext('2d');
-const dpr = window.devicePixelRatio || 1;
-canvas.width = canvas.clientWidth * dpr;
-canvas.height = canvas.clientHeight * dpr;
-ctx.scale(dpr, dpr);
-
-const cx = canvas.clientWidth/2, cy = canvas.clientHeight/2;
+const cx = canvas.width/2, cy = canvas.height/2;
 const outerR = Math.min(cx, cy) - 8;
 const innerR = 54;
 let angle = 0;
 let angularVelocity = 0;
 let spinning = false;
-const friction = 0.992;
+const friction = 0.993;
 const colors = ["#c0392b","#e67e22","#f1c40f","#2ecc71","#1abc9c","#3498db","#9b59b6","#e84393"];
 
 function drawWheel(){
-  ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   const len = options.length;
   const arc = Math.PI*2 / len;
-  // compute max value to scale visuals
   const maxVal = Math.max(...options.map(o=>o.value));
   for(let i=0;i<len;i++){
     const start = angle + i*arc;
@@ -133,14 +121,12 @@ function drawWheel(){
     ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,outerR,start,start+arc);
     ctx.closePath();
-    // size scale effect (cosmetic): more expensive get brighter / thicker
-    const intensity = 0.9 + (options[i].value / maxVal) * 0.6;
+    const intensity = 0.85 + (options[i].value/maxVal)*0.6;
     ctx.fillStyle = colors[i % colors.length];
     ctx.globalAlpha = intensity;
     ctx.fill();
     ctx.globalAlpha = 1;
-
-    // inner cutout (gives ring look)
+    // inner cutout
     ctx.beginPath();
     ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,innerR,start,start+arc,true);
@@ -148,260 +134,77 @@ function drawWheel(){
     ctx.globalCompositeOperation = 'destination-out';
     ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
-
-    // draw thumbnail and text
+    // text & thumbnail placeholder
     const mid = start + arc/2;
     ctx.save();
     ctx.translate(cx + Math.cos(mid)*(innerR+outerR)/2*0.6, cy + Math.sin(mid)*(innerR+outerR)/2*0.6);
     ctx.rotate(mid + Math.PI/2);
-    const opt = options[i];
-    // small rect placeholder for image (images are in the options list preview)
-    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.fillStyle = "rgba(0,0,0,0.22)";
     ctx.fillRect(-28,-28,56,56);
     ctx.fillStyle = "#031018";
     ctx.font = "600 12px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(opt.label, 0, 44);
+    const label = options[i].label.length>26 ? options[i].label.slice(0,23)+"..." : options[i].label;
+    ctx.fillText(label, 0, 44);
     ctx.restore();
   }
-
-  // center circle
-  ctx.beginPath();
-  ctx.arc(cx,cy,innerR-8,0,Math.PI*2);
-  ctx.fillStyle = "#031018";
-  ctx.fill();
-
-  // pointer (top)
-  ctx.beginPath();
-  ctx.moveTo(cx, cy - outerR - 6);
-  ctx.lineTo(cx-16, cy - outerR + 18);
-  ctx.lineTo(cx+16, cy - outerR + 18);
-  ctx.closePath();
-  ctx.fillStyle = "#ffd166";
-  ctx.fill();
-
+  // center
+  ctx.beginPath(); ctx.arc(cx,cy,innerR-8,0,Math.PI*2); ctx.fillStyle="#031018"; ctx.fill();
+  // pointer
+  ctx.beginPath(); ctx.moveTo(cx, cy - outerR - 6); ctx.lineTo(cx-16, cy - outerR + 18); ctx.lineTo(cx+16, cy - outerR + 18); ctx.closePath(); ctx.fillStyle = "#ffd166"; ctx.fill();
   // center label
-  ctx.fillStyle = "#fff";
-  ctx.font = "700 16px sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("SPIN!", cx, cy+6);
+  ctx.fillStyle="#fff"; ctx.font="700 16px sans-serif"; ctx.textAlign="center"; ctx.fillText("SPIN!", cx, cy+6);
 }
 
-function animate(){
-  if(spinning){
-    angularVelocity *= friction;
-    if(Math.abs(angularVelocity) < 0.0006) {
-      angularVelocity = 0;
-      spinning = false;
-      setTimeout(onStop, 350);
-    }
-    angle += angularVelocity;
-  }
-  drawWheel();
-  requestAnimationFrame(animate);
-}
+function animate(){ if(spinning){ angularVelocity *= friction; if(Math.abs(angularVelocity) < 0.0006){ angularVelocity = 0; spinning = false; setTimeout(onStop, 300); } angle += angularVelocity; } drawWheel(); requestAnimationFrame(animate); }
 
-function spin(){
-  if(spinning) return;
-  // randomized velocity
-  const power = 0.3 + Math.random()*0.6;
-  angularVelocity = power * (Math.random() > 0.5 ? 1 : -1);
-  spinning = true;
-  drumrollStart();
-}
+function spin(){ if(spinning) return; const power = 0.35 + Math.random()*0.6; angularVelocity = power * (Math.random()>0.5?1:-1); spinning = true; drumrollStart(); speak(randomHostLine()); }
 
-function getSelectedIndex(){
-  const len = options.length;
-  const normalized = ((angle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
-  const arc = Math.PI*2 / len;
-  const pointerAngle = -Math.PI/2;
-  const relative = (pointerAngle - normalized + Math.PI*2) % (Math.PI*2);
-  return Math.floor(relative / arc);
-}
+function getSelectedIndex(){ const len = options.length; const normalized = ((angle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2); const arc = Math.PI*2 / len; const pointerAngle = -Math.PI/2; const relative = (pointerAngle - normalized + Math.PI*2) % (Math.PI*2); return Math.floor(relative / arc); }
 
-function onStop(){
-  const idx = getSelectedIndex();
-  const opt = options[idx];
-  if(!opt) return;
-  flashSlice(idx);
-  announceWinner(opt);
-  // open link after user clicks BUY to avoid popup blocking; we will open only on Buy click
-}
+function onStop(){ const idx = getSelectedIndex(); const opt = options[idx]; if(!opt) return; flashSlice(idx); announceWinner(opt); }
 
-// visual flash
-function flashSlice(idx){
-  const len = options.length;
-  const arc = Math.PI*2 / len;
-  const start = angle + idx*arc;
-  ctx.beginPath();
-  ctx.moveTo(cx,cy);
-  ctx.arc(cx,cy,outerR,start,start+arc);
-  ctx.closePath();
-  ctx.fillStyle = "rgba(255,255,255,0.16)";
-  ctx.fill();
-  setTimeout(drawWheel, 450);
-}
+function flashSlice(idx){ const len = options.length; const arc = Math.PI*2 / len; const start = angle + idx*arc; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,outerR,start,start+arc); ctx.closePath(); ctx.fillStyle = "rgba(255,255,255,0.14)"; ctx.fill(); setTimeout(drawWheel, 500); }
 
-/* --- host voice + small audio stings using WebAudio and speechSynthesis --- */
-function speak(text, opts = {}) {
-  if('speechSynthesis' in window){
-    const ut = new SpeechSynthesisUtterance(text);
-    ut.rate = opts.rate || 1;
-    ut.pitch = opts.pitch || 1;
-    ut.lang = opts.lang || 'en-US';
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(ut);
-  } else {
-    console.log("SPEAK:", text);
-  }
-}
-
+/* Speech & audio */
+function speak(text, opts = {}){ if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(text); u.rate = opts.rate||1; u.pitch = opts.pitch||1; u.lang = opts.lang||'en-US'; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);} }
 let _audioCtx = null;
-function ensureAudio(){
-  if(!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-}
-function drumrollStart(){
-  ensureAudio();
-  // short fake drumroll via oscillator ticks
-  const ctx = _audioCtx;
-  let t = 0;
-  const interval = 0.06;
-  const repeats = 16;
-  for(let i=0;i<repeats;i++){
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.type = 'square';
-    o.frequency.value = 600 - i*10;
-    g.gain.value = 0.0006;
-    o.connect(g); g.connect(ctx.destination);
-    o.start(ctx.currentTime + t);
-    o.stop(ctx.currentTime + t + 0.05);
-    t += interval;
-  }
-}
-function winnerSting(){
-  ensureAudio();
-  const ctx = _audioCtx;
-  const o1 = ctx.createOscillator(), o2 = ctx.createOscillator();
-  const g = ctx.createGain();
-  o1.type='sine'; o2.type='sine';
-  o1.frequency.value = 1000; o2.frequency.value = 1500;
-  g.gain.value = 0.0008;
-  o1.connect(g); o2.connect(g); g.connect(ctx.destination);
-  o1.start(); o2.start();
-  g.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.4);
-  o1.stop(ctx.currentTime + 0.45); o2.stop(ctx.currentTime + 0.45);
-}
+function ensureAudio(){ if(!_audioCtx) _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+function drumrollStart(){ ensureAudio(); const ctx = _audioCtx; let t=0; const interval=0.055; const repeats = 20; for(let i=0;i<repeats;i++){ const o = ctx.createOscillator(); const g = ctx.createGain(); o.type='square'; o.frequency.value = 700 - i*12; g.gain.value = 0.0006; o.connect(g); g.connect(ctx.destination); o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.05); t += interval; } }
+function winnerSting(){ ensureAudio(); const ctx = _audioCtx; const o1 = ctx.createOscillator(), o2 = ctx.createOscillator(); const g = ctx.createGain(); o1.type='sine'; o2.type='sine'; o1.frequency.value=1100; o2.frequency.value=1600; g.gain.value=0.0009; o1.connect(g); o2.connect(g); g.connect(ctx.destination); o1.start(); o2.start(); g.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime+0.45); o1.stop(ctx.currentTime+0.5); o2.stop(ctx.currentTime+0.5); }
 
-/* --- modal and UI wiring --- */
+/* UI build */
 const optionsEl = document.getElementById('options');
-function buildOptionsUI(){
-  optionsEl.innerHTML = '';
-  // compute price tiers
-  const values = options.map(o=>o.value);
-  const max = Math.max(...values), min = Math.min(...values);
-  options.forEach((o,i)=>{
-    const div = document.createElement('div');
-    div.className = 'option';
-    // badge based on price
-    const tier = (o.value >= (max*0.85)) ? 'High spender' : (o.value <= (min*1.05) ? 'Bottom dollar' : 'Mid spend';
-    // inner HTML
-    div.innerHTML = `
-      <img src="${o.img}" alt="${o.label}"/>
-      <div class="optMeta">
-        <div class="optTitle">${o.label}</div>
-        <div class="optPrice">${o.price} • <span class="badge">${tier}</span></div>
-      </div>
-    `;
-    div.addEventListener('click', ()=>{
-      // open link immediately (user gesture)
-      window.open(o.url,'_blank');
-    });
-    optionsEl.appendChild(div);
-  });
-}
+function buildOptionsUI(){ optionsEl.innerHTML=''; const vals = options.map(o=>o.value); const max = Math.max(...vals), min = Math.min(...vals); options.forEach(o=>{ const div = document.createElement('div'); div.className='option'; const tier = (o.value >= max*0.85) ? 'High spender' : (o.value <= min*1.05 ? 'Bottom dollar' : 'Mid spend'); div.innerHTML = `<img src="${o.img}" alt="${o.label}"><div class="optMeta"><div class="optTitle">${o.label}</div><div class="optPrice">${o.price} <span class="badge">${tier}</span></div></div>`; div.addEventListener('click', ()=> window.open(o.url,'_blank')); optionsEl.appendChild(div); }); }
 
-function announceWinner(opt){
-  const modal = document.getElementById('winnerModal');
-  document.getElementById('winImg').src = opt.img;
-  document.getElementById('winTitle').textContent = opt.label;
-  document.getElementById('winPrice').textContent = opt.price;
-  modal.classList.add('show');
-  // confetti
-  runConfetti();
-  // host speaks
-  speak(`And the winner is... ${opt.label}. What a fantastic choice!`);
-  winnerSting();
-  // wire buttons
-  document.getElementById('buyBtn').onclick = ()=>{ window.open(opt.url,'_blank'); };
-  document.getElementById('spinAgainBtn').onclick = ()=>{ modal.classList.remove('show'); spin(); };
-}
+function announceWinner(opt){ const modal = document.getElementById('winnerModal'); document.getElementById('winImg').src = opt.img; document.getElementById('winTitle').textContent = opt.label; document.getElementById('winPrice').textContent = opt.price; modal.classList.add('show'); runConfetti(); speak(`And the winner is... ${opt.label}. Buy now!`); winnerSting(); document.getElementById('buyBtn').onclick = ()=> window.open(opt.url,'_blank'); document.getElementById('spinAgainBtn').onclick = ()=>{ modal.classList.remove('show'); spin(); }; }
 
-/* simple confetti (canvas-based) */
-function runConfetti(){
-  // small lightweight confetti: append some colored divs
-  const c = document.createElement('div');
-  c.style.position='fixed'; c.style.left=0; c.style.top=0; c.style.width='100%'; c.style.height='100%'; c.style.pointerEvents='none'; c.style.zIndex=60;
-  document.body.appendChild(c);
-  const colors = ['#ffd166','#f94144','#90be6d','#577590','#f8961e'];
-  for(let i=0;i<80;i++){
-    const el = document.createElement('div');
-    el.style.position='absolute';
-    el.style.width='10px'; el.style.height='14px'; el.style.background = colors[i%colors.length];
-    el.style.left = Math.random()*100 + '%';
-    el.style.top = '-5%';
-    el.style.opacity = Math.random()*0.9 + 0.2;
-    el.style.transform = `rotate(${Math.random()*360}deg)`;
-    el.style.borderRadius='2px';
-    el.style.transition = `transform 2.2s linear, top 2.2s linear, left 2.2s linear, opacity 2.2s linear`;
-    c.appendChild(el);
-    setTimeout(()=>{ el.style.top = 100 + Math.random()*20 + '%'; el.style.left = (Math.random()*80 + 10) + '%'; el.style.transform = `rotate(${Math.random()*720}deg)`; el.style.opacity = 0; }, 50 + Math.random()*200);
-  }
-  setTimeout(()=>{ c.remove(); }, 2700);
-}
+function runConfetti(){ const c = document.createElement('div'); c.style.position='fixed'; c.style.left=0; c.style.top=0; c.style.width='100%'; c.style.height='100%'; c.style.pointerEvents='none'; c.style.zIndex=70; document.body.appendChild(c); const cols = ['#ffd166','#f94144','#90be6d','#577590','#f8961e']; for(let i=0;i<80;i++){ const el=document.createElement('div'); el.style.position='absolute'; el.style.width='10px'; el.style.height='14px'; el.style.background=cols[i%cols.length]; el.style.left=Math.random()*100 + '%'; el.style.top='-5%'; el.style.opacity=Math.random()*0.9+0.2; el.style.transform=`rotate(${Math.random()*360}deg)`; el.style.borderRadius='2px'; el.style.transition=`transform 2.2s linear, top 2.2s linear, left 2.2s linear, opacity 2.2s linear`; c.appendChild(el); setTimeout(()=>{ el.style.top = 100 + Math.random()*10 + '%'; el.style.left = (Math.random()*80 + 10) + '%'; el.style.transform = `rotate(${Math.random()*720}deg)`; el.style.opacity = 0; }, 50 + Math.random()*300); } setTimeout(()=> c.remove(), 3000); }
 
-/* lights animation */
-function startLights(){
-  const lights = document.getElementById('lights');
-  lights.innerHTML = '';
-  for(let i=0;i<20;i++){
-    const b = document.createElement('div');
-    b.className = 'bulb';
-    lights.appendChild(b);
-  }
-  let on = false;
-  setInterval(()=>{
-    const bulbs = Array.from(document.querySelectorAll('.bulb'));
-    bulbs.forEach((b,idx)=>{
-      const active = Math.random() > 0.6;
-      b.style.background = active ? '#ffd166' : '#222';
-      b.style.boxShadow = active ? '0 4px 14px rgba(255,209,102,0.45)' : 'inset 0 -2px 4px rgba(0,0,0,.5)';
-    });
-  }, 400);
-}
+/* lights */
+function startLights(){ const lights = document.getElementById('lights'); lights.innerHTML=''; for(let i=0;i<20;i++){ const b = document.createElement('div'); b.className='bulb'; lights.appendChild(b); } setInterval(()=>{ const bulbs = document.querySelectorAll('.bulb'); bulbs.forEach(b=>{ const active = Math.random()>0.6; b.style.background = active ? '#ffd166' : '#222'; b.style.boxShadow = active ? '0 4px 14px rgba(255,209,102,0.45)' : 'none'; }); }, 420); }
 
-/* wire spin button */
-document.getElementById('spinBtn').addEventListener('click', ()=>{
-  // user gesture present (reduces popup-block)
-  speak("Spinning... good luck.");
-  spin();
-});
+document.getElementById('spinBtn').addEventListener('click', ()=>{ speak("Spinning... let's go!"); spin(); });
+canvas.addEventListener('click', ()=>{ if(!spinning){ const idx = getSelectedIndex(); const o = options[idx]; if(o && o.url) window.open(o.url,'_blank'); } });
 
-canvas.addEventListener('click', ()=>{
-  if(!spinning){
-    const idx = getSelectedIndex();
-    const o = options[idx];
-    if(o && o.url) {
-      // open in same gesture
-      window.open(o.url, '_blank');
-    }
-  }
-});
+function getSelectedIndex(){ const len = options.length; const normalized = ((angle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2); const arc = Math.PI*2 / len; const pointerAngle = -Math.PI/2; const relative = (pointerAngle - normalized + Math.PI*2) % (Math.PI*2); return Math.floor(relative / arc); }
 
-buildOptionsUI();
-drawWheel();
-animate();
-startLights();
+/* host lines (change any) */
+const hostLines = [
+  "Welcome to THE BOOT SPINNING GAMESHOW, where your gift fate is decided.",
+  "Since you took four years to buy a present, let's make this entertaining.",
+  "Spin wisely, or your wallet will weep."
+];
+function randomHostLine(){ return hostLines[Math.floor(Math.random()*hostLines.length)]; }
+
+function announceAndInit(){ buildOptionsUI(); drawWheel(); animate(); startLights(); document.getElementById('hostLine').textContent = randomHostLine(); }
+
+animate = animate; // ensure animate exists (no-op if replaced)
+function drawWheel(){ /* placeholder overwritten above by re-definition on load */ }
+drawWheel = drawWheel; // noop
+
+/* initialize (small loader to ensure drawWheel is defined) */
+(function init(){ drawWheel = function(){ ctx.clearRect(0,0,canvas.width,canvas.height); const len = options.length; const arc = Math.PI*2 / len; const maxVal = Math.max(...options.map(o=>o.value)); for(let i=0;i<len;i++){ const start = angle + i*arc; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,outerR,start,start+arc); ctx.closePath(); const intensity = 0.85 + (options[i].value/maxVal)*0.6; ctx.fillStyle = colors[i % colors.length]; ctx.globalAlpha = intensity; ctx.fill(); ctx.globalAlpha = 1; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,innerR,start,start+arc,true); ctx.closePath(); ctx.globalCompositeOperation = 'destination-out'; ctx.fill(); ctx.globalCompositeOperation = 'source-over'; const mid = start + arc/2; ctx.save(); ctx.translate(cx + Math.cos(mid)*(innerR+outerR)/2*0.6, cy + Math.sin(mid)*(innerR+outerR)/2*0.6); ctx.rotate(mid + Math.PI/2); ctx.fillStyle = "rgba(0,0,0,0.22)"; ctx.fillRect(-28,-28,56,56); ctx.fillStyle = "#031018"; ctx.font = "600 12px sans-serif"; ctx.textAlign = "center"; const label = options[i].label.length>26 ? options[i].label.slice(0,23)+"..." : options[i].label; ctx.fillText(label, 0, 44); ctx.restore(); } ctx.beginPath(); ctx.arc(cx,cy,innerR-8,0,Math.PI*2); ctx.fillStyle="#031018"; ctx.fill(); ctx.beginPath(); ctx.moveTo(cx, cy - outerR - 6); ctx.lineTo(cx-16, cy - outerR + 18); ctx.lineTo(cx+16, cy - outerR + 18); ctx.closePath(); ctx.fillStyle = "#ffd166"; ctx.fill(); ctx.fillStyle="#fff"; ctx.font="700 16px sans-serif"; ctx.textAlign="center"; ctx.fillText("SPIN!", cx, cy+6); }; animate = function(){ if(spinning){ angularVelocity *= friction; if(Math.abs(angularVelocity) < 0.0006){ angularVelocity = 0; spinning = false; setTimeout(onStop, 300); } angle += angularVelocity; } drawWheel(); requestAnimationFrame(animate); }; animate(); buildOptionsUI(); startLights(); document.getElementById('hostLine').textContent = randomHostLine(); })();
 
 </script>
 </body>
