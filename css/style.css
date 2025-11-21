@@ -1,20 +1,13 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background: #222;
+  background: #111;
   color: white;
   text-align: center;
 }
 
-header h1 {
-  margin: 20px 0 0 0;
-  font-size: 2rem;
-}
-
-header p {
-  font-size: 1rem;
-  margin: 5px 0 20px 0;
-}
+header h1 { margin: 20px 0 0 0; font-size: 2rem; }
+header p { font-size: 1rem; margin: 5px 0 20px 0; }
 
 #wheel-container {
   width: 90vw;
