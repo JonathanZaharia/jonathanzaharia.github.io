@@ -18,22 +18,28 @@
   <canvas id="wheel-canvas"></canvas>
 </div>
 
+<div id="boot-options">
+  <h2>Boot Options</h2>
+  <ul id="boot-list"></ul>
+</div>
+
 <div id="stage-panel"></div>
 
+<div id="winner-popup" class="popup">
+  <div class="popup-content">
+    <p id="winner-text"></p>
+    <a id="winner-link" href="#" target="_blank">View Boot</a>
+    <button id="popup-close">Close</button>
+  </div>
+</div>
+
 <div id="controls">
-  <select id="voice-select">
-    <option value="yt">Chaotic YouTuber</option>
-    <option value="retro">Retro 80s Game Show</option>
-    <option value="villain">Villain Narrator</option>
-  </select>
   <button id="spin-btn">SPIN THE WHEEL!</button>
   <a href="minigame.html" class="button">Play Mini-Game</a>
   <button id="test-btn">Test Feature</button>
 </div>
 
-<!-- CSS characters -->
 <div class="gremlin" id="gremlin1"></div>
-<div class="gremlin" id="gremlin2"></div>
 
 <script src="js/wheel.js"></script>
 <script src="js/characters.js"></script>
