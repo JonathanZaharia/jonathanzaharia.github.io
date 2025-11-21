@@ -1,7 +1,9 @@
-const gremlin = document.getElementById('gremlin');
+const gremlins = [document.getElementById('gremlin1'), document.getElementById('gremlin2')];
 
-gremlin.addEventListener('click', () => {
-  gremlin.style.animation = 'hop 0.5s ease-out';
-  setTimeout(() => gremlin.style.animation = 'hop 3s infinite', 500);
-  triggerStageEvent('👾 Gremlin jumps dramatically!');
+gremlins.forEach(g => {
+  g.addEventListener('click',()=>{
+    g.style.animation='hop 0.5s ease-out';
+    setTimeout(()=>g.style.animation='hop 2s infinite ease-in-out',500);
+    triggerStageEvent('👾 Gremlin jumps dramatically!');
+  });
 });
