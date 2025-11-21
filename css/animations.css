@@ -1,15 +1,35 @@
-/* animations.css */
+#stage-panel {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1000;
+}
+
+#stage-panel.show {
+  opacity: 1;
+}
+
 .gremlin {
   width: 50px;
   height: 50px;
   position: absolute;
-  background: url('gremlin.png') no-repeat center/contain;
+  top: 50px;
+  left: 50px;
+  background: url('../assets/gremlin.png') no-repeat center/contain;
   cursor: pointer;
   animation: hop 3s infinite;
+  z-index: 100;
 }
 
 @keyframes hop {
   0%, 100% { transform: translateY(0) }
   50% { transform: translateY(-20px) }
 }
-
