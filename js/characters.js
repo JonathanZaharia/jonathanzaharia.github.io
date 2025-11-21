@@ -1,9 +1,17 @@
-const gremlins = [document.getElementById('gremlin1'), document.getElementById('gremlin2')];
+const gremlin=document.getElementById('gremlin1');
+let gx=50, gy=50, dx=2, dy=1.5;
 
-gremlins.forEach(g => {
-  g.addEventListener('click',()=>{
-    g.style.animation='hop 0.5s ease-out';
-    setTimeout(()=>g.style.animation='hop 2s infinite ease-in-out',500);
-    triggerStageEvent('👾 Gremlin jumps dramatically!');
-  });
+function moveGremlin(){
+  gx+=dx; gy+=dy;
+  if(gx<0||gx>window.innerWidth-40) dx*=-1;
+  if(gy<0||gy>window.innerHeight-40) dy*=-1;
+  gremlin.style.left=gx+'px';
+  gremlin.style.top=gy+'px';
+  requestAnimationFrame(moveGremlin);
+}
+moveGremlin();
+
+gremlin.addEventListener('click',()=>{
+  dx*=-1; dy*=-1;
+  triggerStageEvent('👾 Gremlin jumps away!');
 });
