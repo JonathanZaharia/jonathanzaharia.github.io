@@ -13,23 +13,38 @@
   z-index: 1000;
 }
 
-#stage-panel.show {
-  opacity: 1;
-}
+#stage-panel.show { opacity: 1; }
 
+/* CSS Gremlins/characters */
 .gremlin {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   position: absolute;
   top: 50px;
   left: 50px;
-  background: url('../assets/gremlin.png') no-repeat center/contain;
-  cursor: pointer;
-  animation: hop 3s infinite;
+  background: limegreen;
+  border-radius: 50%;
+  animation: hop 2s infinite ease-in-out;
   z-index: 100;
+  cursor: pointer;
+  box-shadow: 0 0 5px #0f0;
 }
 
 @keyframes hop {
-  0%, 100% { transform: translateY(0) }
+  0%,100% { transform: translateY(0) }
   50% { transform: translateY(-20px) }
+}
+
+/* Confetti animation */
+.confetti {
+  width: 8px;
+  height: 8px;
+  background: gold;
+  position: absolute;
+  animation: confetti-fall 2s linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% { top: 0; opacity:1; }
+  100% { top: 100vh; opacity:0; }
 }
