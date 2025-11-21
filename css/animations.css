@@ -1,1 +1,15 @@
+/* animations.css */
+.gremlin {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: url('gremlin.png') no-repeat center/contain;
+  cursor: pointer;
+  animation: hop 3s infinite;
+}
+
+@keyframes hop {
+  0%, 100% { transform: translateY(0) }
+  50% { transform: translateY(-20px) }
+}
 
