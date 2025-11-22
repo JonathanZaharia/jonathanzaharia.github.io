@@ -107,6 +107,54 @@ const options = [
   { label: "African Ranger – Leather Midsole – Buffalo", price: "$240.00", img: "assets/ar-buffalo-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-leather-midsole/", value:240.00 }
 ];
 
+// --- Audio ---
+const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+function playDing(){
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+  osc.start();
+  osc.frequency.exponentialRampToValueAtTime(660, audioCtx.currentTime + 0.25);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+  osc.stop(audioCtx.currentTime + 0.3);
+}
+
+function speakHostLine(text){
+  if('speechSynthesis' in window){
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.lang='en-US'; msg.rate=1; msg.pitch=1.1;
+    window.speechSynthesis.speak(msg);
+  }
+}
+
+// --- Host voice lines ---
+const spinLines = [
+  "Alright, here we go!",
+  "Let's see what fate has in store!",
+  "Brace yourselves, the wheel spins for glory!",
+  "Hold onto your boots!",
+  "Time to make the magic happen!"
+];
+
+const roastLines = [
+  "Better luck next time, cheapskate!",
+  "Ouch, that's gotta sting!",
+  "Are you even trying?",
+  "You call that a choice?",
+  "Ha! Maybe next round!"
+];
+
+const jokeLines = [
+  "Tip: Socks are optional, confidence is not!",
+  "Remember, shoes won't buy happiness, but they come close!",
+  "Host says: Don't forget to stretch before dancing!",
+  "Warning: Side effects may include sudden style upgrades!"
+];
+
+// --- Wheel ---
 const canvas = document.getElementById('wheel');
 const ctx = canvas.getContext('2d');
 const cx = canvas.width/2, cy = canvas.height/2;
@@ -124,34 +172,6 @@ options.forEach((o,i)=>{
   images[i].src = o.img;
 });
 
-// --- Audio setup ---
-const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-
-function playDing(){
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-  osc.start();
-  osc.frequency.exponentialRampToValueAtTime(660, audioCtx.currentTime + 0.25);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
-  osc.stop(audioCtx.currentTime + 0.3);
-}
-
-function speakHostLine(text){
-  if('speechSynthesis' in window){
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang='en-US';
-    msg.rate=1;
-    msg.pitch=1.1;
-    window.speechSynthesis.speak(msg);
-  }
-}
-
-// --- Wheel ---
 function drawWheel(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   const len = options.length;
@@ -205,7 +225,7 @@ function animate(){
 function spin(){
   if(spinning) return;
   playDing();
-  speakHostLine("Alright, here we go!");
+  speakHostLine(spinLines[Math.floor(Math.random()*spinLines.length)]);
   angularVelocity = (0.3 + Math.random()*0.4) * (Math.random()>0.5?1:-1);
   spinning=true;
 }
@@ -240,7 +260,6 @@ function flashSlice(idx){
   setTimeout(drawWheel,500);
 }
 
-// --- Options UI ---
 const optionsEl=document.getElementById('options');
 function buildOptionsUI(){
   optionsEl.innerHTML='';
@@ -252,7 +271,7 @@ function buildOptionsUI(){
     const tier = (o.value>=max*0.85)?'High spender':(o.value<=min*1.05?'Bottom dollar':'Mid spend');
     div.innerHTML=`<img src="${o.img}" alt="${o.label}"><div class="optMeta"><div class="optTitle">${o.label}</div><div class="optPrice">${o.price} <span class="badge">${tier}</span></div></div>`;
     div.addEventListener('click',()=>{ 
-      showTip(`Tip: Consider sizing up for comfort. Host says: "Are you even trying?"`);
+      showTip(jokeLines[Math.floor(Math.random()*jokeLines.length)]);
       window.open(o.url,'_blank');
     });
     optionsEl.appendChild(div);
@@ -262,7 +281,7 @@ function buildOptionsUI(){
 function showTip(text){
   const tip=document.getElementById('tipText');
   tip.textContent=text;
-  setTimeout(()=>{tip.textContent='';},3000);
+  setTimeout(()=>{tip.textContent='';},4000);
 }
 
 function announceWinner(opt){
@@ -270,13 +289,13 @@ function announceWinner(opt){
   document.getElementById('winImg').src=opt.img;
   document.getElementById('winTitle').textContent=opt.label;
   document.getElementById('winPrice').textContent=opt.price;
-  showTip("Roast: Better luck next time, cheapskate!");
+  showTip(roastLines[Math.floor(Math.random()*roastLines.length)]);
+  speakHostLine(roastLines[Math.floor(Math.random()*roastLines.length)]);
   modal.classList.add('show');
   document.getElementById('buyBtn').onclick=()=>window.open(opt.url,'_blank');
   document.getElementById('spinAgainBtn').onclick=()=>{modal.classList.remove('show'); spin();};
 }
 
-// --- Lights ---
 function startLights(){
   const lights=document.getElementById('lights');
   lights.innerHTML='';
@@ -291,7 +310,6 @@ function startLights(){
   },420);
 }
 
-// --- Event listeners ---
 document.getElementById('spinBtn').addEventListener('click',()=>{ spin(); });
 canvas.addEventListener('click',()=>{ if(!spinning){ const idx=getSelectedIndex(); const o=options[idx]; if(o && o.url) window.open(o.url,'_blank'); }});
 
