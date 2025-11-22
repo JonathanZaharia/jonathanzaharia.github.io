@@ -76,7 +76,6 @@
        data-date="2025-11-30 18:57">
        Sales End!
     </a>
-   
   </footer>
 </div>
 
@@ -95,6 +94,7 @@
   </div>
 </div>
 
+<script src="https://cdn.logwork.com/widget/countdown.js" defer></script>
 <script>
 const options = [
   { label: "Baobab – Bronco Brown", price: "$199.99", img: "assets/baobab.jpg", url: "https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12", value:199.99 },
@@ -115,43 +115,14 @@ const innerR = 54;
 let angle = 0;
 let angularVelocity = 0;
 let spinning = false;
-const friction = 0.97; // faster slowdown
+const friction = 0.97; // faster stop
 const colors = ["#c0392b","#e67e22","#f1c40f","#2ecc71","#1abc9c","#3498db","#9b59b6","#e84393"];
-
 const images = [];
+
 options.forEach((o,i)=>{
   images[i] = new Image();
   images[i].src = o.img;
 });
-
-let _audioCtx;
-function ensureAudio(){ if(!_audioCtx) _audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }
-
-function drumrollStart(){
-  ensureAudio();
-  const ctx=_audioCtx;
-  let t=0, interval=0.05;
-  for(let i=0;i<20;i++){
-    const o=ctx.createOscillator(), g=ctx.createGain();
-    o.type='square'; o.frequency.value = 700 - i*12;
-    g.gain.value=0.05;
-    o.connect(g); g.connect(ctx.destination);
-    o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+interval);
-    t+=interval;
-  }
-}
-
-function winnerSting(){
-  ensureAudio();
-  const ctx=_audioCtx;
-  const o1=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain();
-  o1.type=o2.type='sine'; o1.frequency.value=1100; o2.frequency.value=1600;
-  g.gain.value=0.07;
-  o1.connect(g); o2.connect(g); g.connect(ctx.destination);
-  o1.start(); o2.start();
-  g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.45);
-  o1.stop(ctx.currentTime+0.5); o2.stop(ctx.currentTime+0.5);
-}
 
 function drawWheel(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -164,8 +135,8 @@ function drawWheel(){
     ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,outerR,start,start+arc);
     ctx.closePath();
-    ctx.fillStyle = colors[i % colors.length];
     const intensity = 0.85 + (options[i].value/maxVal)*0.6;
+    ctx.fillStyle = colors[i % colors.length];
     ctx.globalAlpha = intensity;
     ctx.fill();
     ctx.globalAlpha = 1;
@@ -185,6 +156,7 @@ function drawWheel(){
     ctx.drawImage(images[i], -28, -28, 56, 56);
     ctx.restore();
   }
+
   ctx.beginPath(); ctx.arc(cx,cy,innerR-8,0,Math.PI*2); ctx.fillStyle="#031018"; ctx.fill();
   ctx.beginPath(); ctx.moveTo(cx, cy - outerR - 6); ctx.lineTo(cx-16, cy - outerR + 18); ctx.lineTo(cx+16, cy - outerR + 18); ctx.closePath(); ctx.fillStyle = "#ffd166"; ctx.fill();
 }
@@ -192,20 +164,32 @@ function drawWheel(){
 function animate(){
   if(spinning){
     angularVelocity *= friction;
-    if(Math.abs(angularVelocity)<0.0006){ 
-      angularVelocity=0; spinning=false; setTimeout(onStop,200);
-    }
+    if(Math.abs(angularVelocity)<0.002){ angularVelocity=0; spinning=false; setTimeout(onStop,200);}
     angle += angularVelocity;
   }
   drawWheel();
   requestAnimationFrame(animate);
 }
 
+// Audio
+let audioCtx, oscillator;
+function playAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    oscillator = audioCtx.createOscillator();
+    oscillator.type='square';
+    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+    oscillator.connect(audioCtx.destination);
+    oscillator.start();
+    setTimeout(()=>oscillator.stop(), 400);
+  }
+}
+
 function spin(){
   if(spinning) return;
-  drumrollStart();
-  angularVelocity = (0.25 + Math.random()*0.5) * (Math.random()>0.5?1:-1);
-  spinning=true;
+  playAudio();
+  angularVelocity = (0.3 + Math.random()*0.4) * (Math.random()>0.5?1:-1);
+  spinning = true;
 }
 
 function getSelectedIndex(){
@@ -222,7 +206,6 @@ function onStop(){
   const opt=options[idx];
   if(!opt) return;
   flashSlice(idx);
-  winnerSting();
   announceWinner(opt);
 }
 
@@ -236,7 +219,7 @@ function flashSlice(idx){
   ctx.closePath();
   ctx.fillStyle="rgba(255,255,255,0.14)";
   ctx.fill();
-  setTimeout(drawWheel,500);
+  setTimeout(drawWheel,400);
 }
 
 const optionsEl=document.getElementById('options');
@@ -271,7 +254,10 @@ function announceWinner(opt){
   showTip("Roast: Better luck next time, cheapskate!");
   modal.classList.add('show');
   document.getElementById('buyBtn').onclick=()=>window.open(opt.url,'_blank');
-  document.getElementById('spinAgainBtn').onclick=()=>{modal.classList.remove('show'); spin();};
+  document.getElementById('spinAgainBtn').onclick=()=>{
+    modal.classList.remove('show'); 
+    spin();
+  };
 }
 
 function startLights(){
