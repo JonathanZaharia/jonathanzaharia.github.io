@@ -42,6 +42,22 @@
   .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
   footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
   @media(max-width:900px){.stage{flex-direction:column;align-items:center} #stageLeft{width:100%} .right{width:100%}}
+  .closeBtn{
+  position:absolute;
+  top:10px;
+  right:14px;
+  background:transparent;
+  border:none;
+  font-size:22px;
+  color:var(--muted);
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.closeBtn:hover{
+  color:#ffd166;
+  transform:scale(1.1);
+}
 </style>
 </head>
 <body>
@@ -79,6 +95,7 @@
 </div>
 
 <div id="winnerModal" class="modal" role="dialog" aria-modal="true">
+  <button id="closeModal" class="closeBtn" aria-label="Close">&times;</button>
   <div style="display:flex;gap:12px;align-items:center">
     <img id="winImg" src="" alt="Winner image" />
     <div>
