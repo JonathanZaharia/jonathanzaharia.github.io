@@ -206,7 +206,7 @@ function animate(){
     angularVelocity *= friction;
     if(Math.abs(angularVelocity)<0.0008){ angularVelocity=0; spinning=false; setTimeout(onStop,300);}
     angle += angularVelocity;
-    startTipCycle();
+   
   }
   drawWheel();
   requestAnimationFrame(animate);
@@ -219,7 +219,7 @@ function spin(){
   spinning=true;
   spinSound.currentTime = 0;
   spinSound.play();
-  showTip(randomTip());
+
   playVoice("Are you ready to spin?");
 }
 
@@ -339,6 +339,7 @@ canvas.addEventListener('click',()=>{ if(!spinning){ const idx=getSelectedIndex(
 animate();
 buildOptionsUI();
 startLights();
+startTipCycle();
 </script>
 </body>
 </html>
