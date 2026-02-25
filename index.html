@@ -47,8 +47,8 @@
 <body>
 <div class="wrap" role="application" aria-label="Boot Gameshow">
   <header>
-    <h1>YOU STILL OWE ME A GIFT — The Boot Spinning Gameshow</h1>
-    <div style="margin-left:auto;color:var(--muted);font-size:13px">Hosted by: Snarky ROBOT</div>
+    <h1>Pick a Boot — The Boot Spinning Gameshow</h1>
+    <div style="margin-left:auto;color:var(--muted);font-size:13px">Hosted by: Who knows!</div>
   </header>
 
   <div class="stage">
@@ -59,11 +59,11 @@
     </div>
 
     <div class="right">
-      <div class="hostLine" id="hostLine">Hey — since you seem to be taking your sweet time, so much sweet time in fact that I made this entire website.</div>
+      <div class="hostLine" id="hostLine">Hey — did you know I made this because someone owed me a pair of boots! Why boots? I don't know, I think I have a problem.</div>
       <div class="info">When the wheel stops, there should be a popup, this is all for fun.</div>
 
       <div id="options" class="options" aria-live="polite"></div>
-      <div id="tipText" class="info">This took way too long to make.</div>
+      <div id="tipText" class="info">This website took way too long to make. Thanks Github Pages</div>
     </div>
   </div>
 
@@ -72,8 +72,8 @@
        class="countdown-timer" 
        data-timezone="America/New_York" 
        data-textcolor="#ffffff" 
-       data-date="2026-11-30 18:57">
-       Sales End! (This Sale is Long Gone)
+       data-date="2026-5-30 18:57">
+       Sales End! (This Sale is Long Gone, I just really like the countdown! Maybe its counting down to something Impoortant! (its not))
     </a>
   </footer>
 </div>
@@ -98,24 +98,37 @@
 <script>
 /* ========== Data ========== */
 const options = [
-  { label: "Baobab – Bronco Brown", price: "$199.99", img: "assets/baobab.jpg", url: "https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12", value:199.99 },
-  { label: "African Ranger – Leather Midsole – Bronco Brown", price: "$169.99", img: "assets/ar-bronco-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-bronco-leather-midsole/?attribute_pa_size=12", value:169.99 },
-  { label: "African Ranger – Leather Midsole – Houston Brown", price: "$155.99", img: "assets/ar-houston-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-houston-brown-leather-midsole/?attribute_pa_size=12", value:155.99 },
-  { label: "African Ranger – Bronco Brown (Tyre Wedge)", price: "$155.99", img: "assets/ar-tyre.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-tyre-wedge-bronco/?attribute_pa_size=12", value:155.99 },
-  { label: "719 – Frog Grip Sole – Bronco Brown", price: "$129.99", img: "assets/719-frog.jpg", url: "https://jimgreenfootwear.com/store/719-bronco/", value:129.99 },
-  { label: "719 – Tyre Wedge – Bronco Brown", price: "$129.99", img: "assets/719-tyre.jpg", url: "https://jimgreenfootwear.com/store/719-bronco-brown-tyre-wedge/", value:129.99 },
-  { label: "African Ranger – Buffalo Skin", price: "$240.00", img: "assets/ar-buffalo.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-skin/", value:240.00 },
-  { label: "African Ranger – Leather Midsole – Buffalo", price: "$240.00", img: "assets/ar-buffalo-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-leather-midsole/", value:240.00 }
+  { label: "Baobab – Bronco Brown(discontinued)", price: "$199.99(discontinued(", img: "assets/baobab.jpg", url: "https://jimgreenfootwear.com/store/baobab-boot-bronco/?attribute_pa_size=12", value:199.99 },
+  { label: "African Ranger – Leather Midsole – Bronco Brown", price: "$229.99(used to be $169.99)", img: "assets/ar-bronco-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-bronco-leather-midsole/?attribute_pa_size=12", value:299.99 },
+  { label: "African Ranger – Leather Midsole – Houston Brown", price: "$219.99(used to be $155.99)", img: "assets/ar-houston-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-houston-brown-leather-midsole/?attribute_pa_size=12", value:219.99 },
+  { label: "African Ranger – Bronco Brown (Tyre Wedge)", price: "$199.99(used to be $155.99)", img: "assets/ar-tyre.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-tyre-wedge-bronco/?attribute_pa_size=12", value:199.99 },
+  { label: "719 – Frog Grip Sole – Bronco Brown", price: "$269.99(used to be $129.99)", img: "assets/719-frog.jpg", url: "https://jimgreenfootwear.com/store/719-bronco/", value:269.99 },
+  { label: "719 – Tyre Wedge – Bronco Brown", price: "$269.99(used to be $129.99)", img: "assets/719-tyre.jpg", url: "https://jimgreenfootwear.com/store/719-bronco-brown-tyre-wedge/", value:269.99 },
+  { label: "African Ranger – Buffalo Skin", price: "$240.00(no price change recorded)", img: "assets/ar-buffalo.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-skin/", value:240.00 },
+  { label: "African Ranger – Leather Midsole – Buffalo", price: "$269.99(no price change recorded)", img: "assets/ar-buffalo-leather.jpg", url: "https://jimgreenfootwear.com/store/african-ranger-buffalo-leather-midsole/", value:269.99 }
 ];
 
 const tips = [
-  "Tip: Consider sizing up for comfort.",
-  "Roast: Better luck next time, cheapskate!",
-  "Joke: Why did the boot refuse to enter the bar? It was sole-less!",
-  "Roast: Are you even trying, or just here for the chaos?",
-  "Joke: This wheel has more spin than your last Zoom call.",
-  "Tip: Buying boots won't fix your life, but it helps.",
-  "Roast: Your fashion sense called; it wants its dignity back."
+  "Tip: Consider sizing up — your toes deserve a little wiggle room to re-boot.",
+  "Roast: Oof… that price tag just kicked your wallet in the shins.",
+  "Joke: Why did the boot break up with the sneaker? It needed more sole.",
+  "Roast: That checkout total? Your wallet’s about to go on a leather-only diet.",
+  "Joke: These boots have more heel turn than a wrestling villain.",
+  "Tip: Good boots won’t solve your problems — but they’ll help you tread through them.",
+  "Roast: That purchase just laced up and stomped your bank account.",
+  "Joke: I tried to save money, but these boots had other plans afoot.",
+  "Roast: Your card just tapped out — submission by financial ankle lock.",
+  "Tip: Break in your boots slowly… unlike your savings account.",
+  "Joke: Why don’t boots ever get lost? They always follow their sole.",
+  "Roast: That was a bold move — your budget is now on life support.",
+  "Tip: Tight laces, loose expectations, and maybe a payment plan.",
+  "Joke: I bought new boots for hiking, but mostly they’re just for the climb in credit card debt.",
+  "Roast: That total didn’t just rise — it high-kicked your monthly budget.",
+  "Tip: If the heel slips, tighten the laces. If your wallet slips, well… too late.",
+  "Joke: These boots aren’t made for walking — they’re made for financial consequences.",
+  "Roast: You said “treat yourself.” Your bank account heard “defeat yourself.”",
+  "Tip: Buy once, cry once… preferably into quality leather.",
+  "Joke: I told my wallet it was just browsing. It knew I was pulling its leg."
 ];
 
 const voices = [
@@ -193,6 +206,7 @@ function animate(){
     angularVelocity *= friction;
     if(Math.abs(angularVelocity)<0.0008){ angularVelocity=0; spinning=false; setTimeout(onStop,300);}
     angle += angularVelocity;
+    startTipCycle();
   }
   drawWheel();
   requestAnimationFrame(animate);
@@ -264,10 +278,20 @@ function buildOptionsUI(){
 }
 
 /* ========== Tip / Roast / Joke Popup ========== */
-function showTip(text){
-  const tip=document.getElementById('tipText');
-  tip.textContent=text;
-  setTimeout(()=>{tip.textContent='';},4000);
+let tipInterval = null;
+
+function startTipCycle(){
+  const tip = document.getElementById('tipText');
+
+  // Immediately show one
+  tip.textContent = randomTip();
+
+  // Clear any existing interval (prevents stacking)
+  if(tipInterval) clearInterval(tipInterval);
+
+  tipInterval = setInterval(() => {
+    tip.textContent = randomTip();
+  }, 4000);
 }
 
 function randomTip(){ return tips[Math.floor(Math.random()*tips.length)]; }
