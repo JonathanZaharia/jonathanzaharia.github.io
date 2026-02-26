@@ -92,7 +92,7 @@ button{
   <button id="closeModal" class="closeBtn">&times;</button>
   <div>
     <h3 id="winnerText"></h3>
-    <button onclick="closeModal()">Close</button>
+   
   </div>
 </div>
 
@@ -181,28 +181,33 @@ function onStop(){
 }
 
 /* ========== Modal ========== */
-function showWinner(text){
-  document.getElementById("winnerText").textContent = "You got: " + text;
-  document.getElementById("winnerModal").classList.add("show");
-}
-
 function closeModal(){
-  document.getElementById("winnerModal").classList.remove("show");
+  const modal = document.getElementById("winnerModal");
+  modal.classList.remove("show");
 }
 
-document.getElementById("closeModal").addEventListener("click", closeModal);
+document.addEventListener("DOMContentLoaded", () => {
 
-window.addEventListener("click",(e)=>{
   const modal = document.getElementById("winnerModal");
-  if(e.target === modal){
-    closeModal();
-  }
-});
+  const closeBtn = document.getElementById("closeModal");
 
-document.addEventListener("keydown",(e)=>{
-  if(e.key === "Escape"){
+  closeBtn.addEventListener("click", function(e){
+    e.stopPropagation();
     closeModal();
-  }
+  });
+
+  window.addEventListener("click", function(e){
+    if(e.target === modal){
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){
+      closeModal();
+    }
+  });
+
 });
 
 /* ========== Cycling Tips ========== */
