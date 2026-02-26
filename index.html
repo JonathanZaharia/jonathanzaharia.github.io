@@ -43,21 +43,20 @@
   footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
   @media(max-width:900px){.stage{flex-direction:column;align-items:center} #stageLeft{width:100%} .right{width:100%}}
   .closeBtn{
-  position:absolute;
-  top:10px;
-  right:14px;
-  background:transparent;
-  border:none;
-  font-size:22px;
-  color:var(--muted);
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.closeBtn:hover{
-  color:#ffd166;
-  transform:scale(1.1);
-}
+    position:absolute;
+    top:10px;
+    right:14px;
+    background:transparent;
+    border:none;
+    font-size:22px;
+    color:var(--muted);
+    cursor:pointer;
+    font-weight:bold;
+  }
+  .closeBtn:hover{
+    color:#ffd166;
+    transform:scale(1.1);
+  }
 </style>
 </head>
 <body>
@@ -94,7 +93,8 @@
   </footer>
 </div>
 
-<div id="winnerModal" class="modal" role="dialog" aria-modal="true">
+<!-- FIX 1: added style="position:relative" so the absolute closeBtn anchors correctly -->
+<div id="winnerModal" class="modal" role="dialog" aria-modal="true" style="position:relative">
   <button id="closeModal" class="closeBtn" aria-label="Close">&times;</button>
   <div style="display:flex;gap:12px;align-items:center">
     <img id="winImg" src="" alt="Winner image" />
@@ -129,21 +129,21 @@ const tips = [
   "Tip: Consider sizing up — your toes deserve a little wiggle room to re-boot.",
   "Roast: Oof… that price tag just kicked your wallet in the shins.",
   "Joke: Why did the boot break up with the sneaker? It needed more sole.",
-  "Roast: That checkout total? Your wallet’s about to go on a leather-only diet.",
+  "Roast: That checkout total? Your wallet's about to go on a leather-only diet.",
   "Joke: These boots have more heel turn than a wrestling villain.",
-  "Tip: Good boots won’t solve your problems — but they’ll help you tread through them.",
+  "Tip: Good boots won't solve your problems — but they'll help you tread through them.",
   "Roast: That purchase just laced up and stomped your bank account.",
   "Joke: I tried to save money, but these boots had other plans afoot.",
   "Roast: Your card just tapped out — submission by financial ankle lock.",
   "Tip: Break in your boots slowly… unlike your savings account.",
-  "Joke: Why don’t boots ever get lost? They always follow their sole.",
+  "Joke: Why don't boots ever get lost? They always follow their sole.",
   "Roast: That was a bold move — your budget is now on life support.",
   "Tip: Tight laces, loose expectations, and maybe a payment plan.",
-  "Joke: I bought new boots for hiking, but mostly they’re just for the climb in credit card debt.",
-  "Roast: That total didn’t just rise — it high-kicked your monthly budget.",
+  "Joke: I bought new boots for hiking, but mostly they're just for the climb in credit card debt.",
+  "Roast: That total didn't just rise — it high-kicked your monthly budget.",
   "Tip: If the heel slips, tighten the laces. If your wallet slips, well… too late.",
-  "Joke: These boots aren’t made for walking — they’re made for financial consequences.",
-  "Roast: You said “treat yourself.” Your bank account heard “defeat yourself.”",
+  "Joke: These boots aren't made for walking — they're made for financial consequences.",
+  "Roast: You said \u201ctreat yourself.\u201d Your bank account heard \u201cdefeat yourself.\u201d",
   "Tip: Buy once, cry once… preferably into quality leather.",
   "Joke: I told my wallet it was just browsing. It knew I was pulling its leg."
 ];
@@ -223,7 +223,6 @@ function animate(){
     angularVelocity *= friction;
     if(Math.abs(angularVelocity)<0.0008){ angularVelocity=0; spinning=false; setTimeout(onStop,300);}
     angle += angularVelocity;
-   
   }
   drawWheel();
   requestAnimationFrame(animate);
@@ -236,7 +235,6 @@ function spin(){
   spinning=true;
   spinSound.currentTime = 0;
   spinSound.play();
-
   playVoice("Are you ready to spin?");
 }
 
@@ -299,13 +297,8 @@ let tipInterval = null;
 
 function startTipCycle(){
   const tip = document.getElementById('tipText');
-
-  // Immediately show one
   tip.textContent = randomTip();
-
-  // Clear any existing interval (prevents stacking)
   if(tipInterval) clearInterval(tipInterval);
-
   tipInterval = setInterval(() => {
     tip.textContent = randomTip();
   }, 4000);
@@ -352,6 +345,11 @@ function playVoice(line){
 /* ========== Events ========== */
 document.getElementById('spinBtn').addEventListener('click',()=>{ spin(); });
 canvas.addEventListener('click',()=>{ if(!spinning){ const idx=getSelectedIndex(); const o=options[idx]; if(o && o.url) window.open(o.url,'_blank'); }});
+
+// FIX 2: wire up the close button
+document.getElementById('closeModal').addEventListener('click', () => {
+  document.getElementById('winnerModal').classList.remove('show');
+});
 
 animate();
 buildOptionsUI();
