@@ -362,7 +362,7 @@
     spinning = true;
     spinSound.currentTime = 0;
     spinSound.play();
-    playVoice(getRandomVoice("spinStart"));
+    playVoice("Are you ready to spin?");
   }
 
   /* ============================================================
@@ -449,15 +449,7 @@
     document.getElementById('tipTextModal').textContent = randomTip();
     document.getElementById('modalOverlay').classList.add('show');
     document.getElementById('winnerModal').classList.add('show');
-    // Winner line
-playVoice(getRandomVoice("winner", opt));
-
-// Extra roast if expensive
-if (opt.value >= 250) {
-  setTimeout(() => {
-    playVoice(getRandomVoice("highPrice"));
-  }, 1200);
-}
+    playVoice("And the winner is...");
     document.getElementById('buyBtn').onclick = ()=>window.open(opt.url,'_blank');
     document.getElementById('spinAgainBtn').onclick = ()=>{ closeModal(); spin(); };
   }
@@ -467,12 +459,9 @@ if (opt.value >= 250) {
      Hides modal + backdrop. Triggered by X, backdrop click, or Spin Again.
   ============================================================ */
   function closeModal(){
-  document.getElementById('winnerModal').classList.remove('show');
-  document.getElementById('modalOverlay').classList.remove('show');
-
-  // Play closing voice
-  playVoice(getRandomVoice("close"));
-}
+    document.getElementById('winnerModal').classList.remove('show');
+    document.getElementById('modalOverlay').classList.remove('show');
+  }
   document.getElementById('closeModal').addEventListener('click', closeModal);
   document.getElementById('modalOverlay').addEventListener('click', closeModal); // click backdrop to close
 
@@ -501,85 +490,12 @@ if (opt.value >= 250) {
      VOICE PLAYBACK
      Uses browser text-to-speech for gameshow flavour.
   ============================================================ */
-  /* ============================================================
-   VOICE SYSTEM — Randomized + Dynamic
-   Separate pools for different game moments
-============================================================ */
-
-const voiceLines = {
-  intro: [
-    "Welcome back to the Boot Dome.",
-    "Another spin, another financial decision.",
-    "Tonight… leather meets destiny."
-  ],
-
-  spinStart: [
-    "Spin it!",
-    "Round and round it goes!",
-    "Your wallet is nervous.",
-    "Fate is calculating your balance."
-  ],
-
-  suspense: [
-    "Where it stops… nobody knows.",
-    "This is getting expensive.",
-    "I can hear your credit card breathing."
-  ],
-
-  winner: [
-    (boot) => `You landed on ${boot.label}!`,
-    (boot) => `${boot.label}? Bold choice.`,
-    (boot) => `Ah yes… the ${boot.label}.`,
-    (boot) => `And destiny chooses… ${boot.label}!`
-  ],
-
-  highPrice: [
-    "That price just uppercut your savings.",
-    "Hope you like ramen.",
-    "Your wallet just filed a complaint.",
-    "Luxury detected. Bank account rejected."
-  ],
-
-  close: [
-    "Back to the arena.",
-    "Spin again if you dare.",
-    "And the crowd goes mildly concerned.",
-    "Another round of fiscal bravery!"
-  ]
-};
-
-let lastVoiceLine = "";
-
-function getRandomVoice(poolName, data = null) {
-  const pool = voiceLines[poolName];
-  if (!pool) return "";
-
-  let entry;
-  do {
-    entry = pool[Math.floor(Math.random() * pool.length)];
-  } while (entry === lastVoiceLine && pool.length > 1);
-
-  lastVoiceLine = entry;
-
-  if (typeof entry === "function") {
-    return entry(data);
+  function playVoice(line){
+    const utter = new SpeechSynthesisUtterance(line);
+    utter.rate=1;
+    utter.pitch=1;
+    window.speechSynthesis.speak(utter);
   }
-
-  return entry;
-}
-function playVoice(line){
-  if (!line) return;
-
-  // Stop any voice currently speaking
-  window.speechSynthesis.cancel();
-
-  const utter = new SpeechSynthesisUtterance(line);
-  utter.rate = 1;      // speed
-  utter.pitch = 1;     // tone
-  utter.volume = 1;    // loudness (0–1)
-
-  window.speechSynthesis.speak(utter);
-}
 
   /* ============================================================
      EVENT LISTENERS
@@ -596,13 +512,10 @@ function playVoice(line){
   /* ============================================================
      INIT — run everything on page load
   ============================================================ */
- animate();
-buildOptionsUI();
-startLights();
-startTipCycle();
-
-// Intro voice when page loads
-playVoice(getRandomVoice("intro"));
+  animate();
+  buildOptionsUI();
+  startLights();
+  startTipCycle();
 
 </script>
 </body>
