@@ -181,6 +181,13 @@ function onStop(){
 }
 
 /* ========== Modal ========== */
+  function showWinner(text){
+  const modal = document.getElementById("winnerModal");
+  const winnerText = document.getElementById("winnerText");
+
+  winnerText.textContent = "You got: " + text;
+  modal.classList.add("show");
+}
 function closeModal(){
   const modal = document.getElementById("winnerModal");
   modal.classList.remove("show");
