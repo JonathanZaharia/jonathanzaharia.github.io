@@ -8,6 +8,7 @@
 :root{
   --bg:#0f172a;
   --panel:#071428;
+  --muted:#9aa4b2;
 }
 
 body{
@@ -37,11 +38,12 @@ button{
   min-height:24px;
 }
 
+/* Modal */
 .modal{
   position:fixed;
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%,-50%) scale(.95);
   min-width:320px;
   background:var(--panel);
   border-radius:12px;
@@ -49,10 +51,30 @@ button{
   box-shadow:0 26px 80px rgba(0,0,0,.7);
   z-index:60;
   display:none;
+  align-items:center;
+  gap:12px;
+  position:relative; /* needed for close button */
 }
 
 .modal.show{
-  display:block;
+  display:flex;
+}
+
+.closeBtn{
+  position:absolute;
+  top:10px;
+  right:14px;
+  background:transparent;
+  border:none;
+  font-size:22px;
+  color:var(--muted);
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.closeBtn:hover{
+  color:#ffd166;
+  transform:scale(1.1);
 }
 </style>
 </head>
@@ -67,8 +89,11 @@ button{
 <div id="tipText"></div>
 
 <div id="winnerModal" class="modal">
-  <h3 id="winnerText"></h3>
-  <button onclick="closeModal()">Close</button>
+  <button id="closeModal" class="closeBtn">&times;</button>
+  <div>
+    <h3 id="winnerText"></h3>
+   
+  </div>
 </div>
 
 <script>
@@ -156,14 +181,41 @@ function onStop(){
 }
 
 /* ========== Modal ========== */
-function showWinner(text){
-  document.getElementById("winnerText").textContent = "You got: " + text;
-  document.getElementById("winnerModal").classList.add("show");
+  function showWinner(text){
+  const modal = document.getElementById("winnerModal");
+  const winnerText = document.getElementById("winnerText");
+
+  winnerText.textContent = "You got: " + text;
+  modal.classList.add("show");
+}
+function closeModal(){
+  const modal = document.getElementById("winnerModal");
+  modal.classList.remove("show");
 }
 
-function closeModal(){
-  document.getElementById("winnerModal").classList.remove("show");
-}
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("winnerModal");
+  const closeBtn = document.getElementById("closeModal");
+
+  closeBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    closeModal();
+  });
+
+  window.addEventListener("click", function(e){
+    if(e.target === modal){
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){
+      closeModal();
+    }
+  });
+
+});
 
 /* ========== Cycling Tips ========== */
 let tipInterval = null;
