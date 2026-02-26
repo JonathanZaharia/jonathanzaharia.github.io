@@ -506,7 +506,12 @@ if (opt.value >= 250) {
    Separate pools for different game moments
 ============================================================ */
 
+/* ============================================================
+   VOICE SYSTEM — Randomized + Dynamic
+============================================================ */
+
 const voiceLines = {
+
   intro: [
     "Welcome back to the Boot Dome.",
     "Another spin, another financial decision.",
@@ -518,12 +523,6 @@ const voiceLines = {
     "Round and round it goes!",
     "Your wallet is nervous.",
     "Fate is calculating your balance."
-  ],
-
-  suspense: [
-    "Where it stops… nobody knows.",
-    "This is getting expensive.",
-    "I can hear your credit card breathing."
   ],
 
   winner: [
@@ -548,35 +547,34 @@ const voiceLines = {
   ]
 };
 
-let lastVoiceLine = "";
+let lastVoiceLineText = "";
 
 function getRandomVoice(poolName, data = null) {
   const pool = voiceLines[poolName];
-  if (!pool) return "";
+  if (!pool || pool.length === 0) return "";
 
   let entry;
+  let lineText;
+
   do {
     entry = pool[Math.floor(Math.random() * pool.length)];
-  } while (entry === lastVoiceLine && pool.length > 1);
+    lineText = typeof entry === "function" ? entry(data) : entry;
+  } while (lineText === lastVoiceLineText && pool.length > 1);
 
-  lastVoiceLine = entry;
-
-  if (typeof entry === "function") {
-    return entry(data);
-  }
-
-  return entry;
+  lastVoiceLineText = lineText;
+  return lineText;
 }
+
 function playVoice(line){
   if (!line) return;
 
-  // Stop any voice currently speaking
+  // Prevent stacking voices
   window.speechSynthesis.cancel();
 
   const utter = new SpeechSynthesisUtterance(line);
-  utter.rate = 1;      // speed
-  utter.pitch = 1;     // tone
-  utter.volume = 1;    // loudness (0–1)
+  utter.rate = 1;
+  utter.pitch = 1;
+  utter.volume = 1;
 
   window.speechSynthesis.speak(utter);
 }
