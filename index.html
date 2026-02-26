@@ -426,6 +426,7 @@ const options = [
     label: "Baobab – Bronco Brown",
     currentPrice: 199.99,
     priceDisplay: "$199.99",
+    priceNote: "discontinued",
     originalPrice: null,
     discontinued: true,
     img: "assets/baobab.jpg",
@@ -436,6 +437,7 @@ const options = [
     label: "African Ranger – Leather Midsole – Bronco Brown",
     currentPrice: 229.99,
     priceDisplay: "$229.99",
+    priceNote: "used to be $169.99",
     originalPrice: 169.99,
     discontinued: false,
     img: "assets/ar-bronco-leather.jpg",
@@ -446,6 +448,7 @@ const options = [
     label: "African Ranger – Leather Midsole – Houston Brown",
     currentPrice: 219.99,
     priceDisplay: "$219.99",
+    priceNote: "used to be $155.99",
     originalPrice: 155.99,
     discontinued: false,
     img: "assets/ar-houston-leather.jpg",
@@ -456,6 +459,7 @@ const options = [
     label: "African Ranger – Bronco Brown (Tyre Wedge)",
     currentPrice: 199.99,
     priceDisplay: "$199.99",
+    priceNote: "used to be $155.99",
     originalPrice: 155.99,
     discontinued: false,
     img: "assets/ar-tyre.jpg",
@@ -466,6 +470,7 @@ const options = [
     label: "719 – Frog Grip Sole – Bronco Brown",
     currentPrice: 269.99,
     priceDisplay: "$269.99",
+    priceNote: "used to be $129.99",
     originalPrice: 129.99,
     discontinued: false,
     img: "assets/719-frog.jpg",
@@ -476,6 +481,7 @@ const options = [
     label: "719 – Tyre Wedge – Bronco Brown",
     currentPrice: 269.99,
     priceDisplay: "$269.99",
+    priceNote: "used to be $129.99",
     originalPrice: 129.99,
     discontinued: false,
     img: "assets/719-tyre.jpg",
@@ -486,6 +492,7 @@ const options = [
     label: "African Ranger – Buffalo Skin",
     currentPrice: 240.00,
     priceDisplay: "$240.00",
+    priceNote: "no price change recorded",
     originalPrice: null,
     discontinued: false,
     img: "assets/ar-buffalo.jpg",
@@ -496,6 +503,7 @@ const options = [
     label: "African Ranger – Leather Midsole – Buffalo",
     currentPrice: 269.99,
     priceDisplay: "$269.99",
+    priceNote: "no price change recorded",
     originalPrice: null,
     discontinued: false,
     img: "assets/ar-buffalo-leather.jpg",
@@ -684,9 +692,9 @@ function showWinnerModal(opt) {
   document.getElementById('winTitle').textContent = opt.label;
   const priceEl = document.getElementById('winPrice');
   if (opt.originalPrice) {
-    priceEl.innerHTML = `<strong>${opt.priceDisplay}</strong> <span style="color:#ff6b6b;text-decoration:line-through;font-size:12px">was $${opt.originalPrice.toFixed(2)}</span>`;
+    priceEl.innerHTML = `<strong>${opt.priceDisplay}</strong> <span style="color:#ff6b6b;font-size:12px">(${opt.priceNote})</span>`;
   } else {
-    priceEl.innerHTML = `<strong>${opt.priceDisplay}</strong>`;
+    priceEl.innerHTML = `<strong>${opt.priceDisplay}</strong> <span style="color:#7a8fa8;font-size:12px">(${opt.priceNote})</span>`;
   }
   document.getElementById('winTip').textContent = randomTip();
   document.getElementById('overlay').classList.add('show');
@@ -735,9 +743,7 @@ function buildOptionsUI() {
                : o.currentPrice <= min * 1.05 ? 'Budget pick'
                : 'Mid tier';
 
-    const priceChange = o.originalPrice
-      ? `<span class="price-up">↑ was $${o.originalPrice.toFixed(2)}</span>`
-      : `<span class="price-same">no change recorded</span>`;
+    const priceChange = `<span class="${o.originalPrice ? 'price-up' : 'price-same'}">${o.priceNote}</span>`;
 
     div.innerHTML = `
       <img src="${o.img}" alt="${o.label}" loading="lazy">
