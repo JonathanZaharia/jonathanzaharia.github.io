@@ -1,4 +1,4 @@
-<!doctype html>
+fix this <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -42,6 +42,22 @@
   .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
   footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
   @media(max-width:900px){.stage{flex-direction:column;align-items:center} #stageLeft{width:100%} .right{width:100%}}
+  .closeBtn{
+  position:absolute;
+  top:10px;
+  right:14px;
+  background:transparent;
+  border:none;
+  font-size:22px;
+  color:var(--muted);
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.closeBtn:hover{
+  color:#ffd166;
+  transform:scale(1.1);
+}
 </style>
 </head>
 <body>
@@ -79,6 +95,7 @@
 </div>
 
 <div id="winnerModal" class="modal" role="dialog" aria-modal="true">
+  <button id="closeModal" class="closeBtn" aria-label="Close">&times;</button>
   <div style="display:flex;gap:12px;align-items:center">
     <img id="winImg" src="" alt="Winner image" />
     <div>
@@ -206,6 +223,7 @@ function animate(){
     angularVelocity *= friction;
     if(Math.abs(angularVelocity)<0.0008){ angularVelocity=0; spinning=false; setTimeout(onStop,300);}
     angle += angularVelocity;
+   
   }
   drawWheel();
   requestAnimationFrame(animate);
@@ -218,7 +236,7 @@ function spin(){
   spinning=true;
   spinSound.currentTime = 0;
   spinSound.play();
-  showTip(randomTip());
+
   playVoice("Are you ready to spin?");
 }
 
@@ -277,10 +295,20 @@ function buildOptionsUI(){
 }
 
 /* ========== Tip / Roast / Joke Popup ========== */
-function showTip(text){
-  const tip=document.getElementById('tipText');
-  tip.textContent=text;
-  setTimeout(()=>{tip.textContent='';},4000);
+let tipInterval = null;
+
+function startTipCycle(){
+  const tip = document.getElementById('tipText');
+
+  // Immediately show one
+  tip.textContent = randomTip();
+
+  // Clear any existing interval (prevents stacking)
+  if(tipInterval) clearInterval(tipInterval);
+
+  tipInterval = setInterval(() => {
+    tip.textContent = randomTip();
+  }, 4000);
 }
 
 function randomTip(){ return tips[Math.floor(Math.random()*tips.length)]; }
@@ -328,6 +356,7 @@ canvas.addEventListener('click',()=>{ if(!spinning){ const idx=getSelectedIndex(
 animate();
 buildOptionsUI();
 startLights();
+startTipCycle();
 </script>
 </body>
-</html> any clue where tips should be displaying?
+</html>, button not there and winner is tempermental working aometimes and sometines not
